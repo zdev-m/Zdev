@@ -15,1102 +15,673 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>student • hub • 9–12</title>
-    
+    <title>Spinverse • Win & Withdraw</title>
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
         }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background: #0a0a0f;
-            color: #ffffff;
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* 3D Animated Background */
-        #canvas-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(244, 114, 182, 0.08) 0%, transparent 50%);
-        }
-
-        /* Floating Particles */
-        .particle {
-            position: fixed;
-            width: 2px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .container {
-            max-width: 1440px;
-            margin: 0 auto;
+            background: radial-gradient(circle at 20% 30%, #1a0b2e, #0c0a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
             position: relative;
+            overflow-x: hidden;
+        }
+        /* Animated background elements */
+        .orb {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.15), rgba(138, 43, 226, 0.1));
+            filter: blur(70px);
+            z-index: -1;
+            animation: floatOrb 20s infinite alternate;
+        }
+        .orb-1 { top: -100px; left: -100px; background: radial-gradient(circle, #ff6b6b33, #f0e68c33); }
+        .orb-2 { bottom: -100px; right: -100px; background: radial-gradient(circle, #9370db33, #4b008233); animation-duration: 25s; }
+        .orb-3 { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; opacity: 0.3; filter: blur(100px); background: #4a00e033; animation: pulseOrb 8s infinite; }
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, 80px) scale(1.1); }
+        }
+        @keyframes pulseOrb {
+            0%,100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .main-container {
+            max-width: 1300px;
+            width: 100%;
             z-index: 10;
         }
 
-        /* Glass Navbar */
-        nav {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 60px;
-            padding: 16px 32px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+        /* Header */
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transform: perspective(2000px) rotateX(1deg);
+            margin-bottom: 40px;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
         }
-
-        .logo {
+        .logo-area {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-
         .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #6366f1, #f472b6);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(145deg, #FFD700, #FFA500);
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            color: white;
+            font-size: 28px;
+            color: #0a0a1a;
             transform: rotate(5deg);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 20px rgba(255,215,0,0.3);
         }
-
         .logo-text {
-            font-size: 24px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 8px;
-        }
-
-        .nav-link {
-            padding: 10px 20px;
-            border-radius: 40px;
-            color: rgba(255, 255, 255, 0.6);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-        }
-
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.03);
-            border-color: rgba(255, 255, 255, 0.05);
-            color: white;
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            margin-bottom: 60px;
-            animation: fadeUp 1s ease;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero h1 {
-            font-size: clamp(40px, 8vw, 90px);
+            font-size: 28px;
             font-weight: 700;
-            letter-spacing: -2px;
-            line-height: 1;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #ffffff, #94a3b8, #6366f1);
+            background: linear-gradient(135deg, #fff, #FFD966);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-        .hero p {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.4);
-            letter-spacing: 2px;
-        }
-
-        /* Main Grid */
-        .main-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        /* Glass Cards */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 40px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            box-shadow: 0 25px 50px -25px rgba(0, 0, 0, 0.5);
-            transform: perspective(2000px) rotateX(1deg) translateZ(10px);
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1);
-            cursor: pointer;
-        }
-
-        .glass-card:hover {
-            transform: perspective(2000px) rotateX(0deg) translateZ(30px);
-            background: rgba(255, 255, 255, 0.03);
-            border-color: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 40px 80px -30px rgba(99, 102, 241, 0.3);
-        }
-
-        .card-header {
+        .balance-card {
+            background: rgba(255,255,255,0.04);
+            border-radius: 50px;
+            padding: 12px 28px;
+            border: 1px solid rgba(255,215,0,0.2);
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .balance-label {
+            color: #aaa;
+            font-size: 14px;
+        }
+        .balance-amount {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFD700;
         }
 
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 25px;
+        /* Main Grid: Wheel & Withdrawal Side by Side */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.9fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* ---------- Spin Wheel Card (Cosmic Design) ---------- */
+        .wheel-card {
+            background: rgba(20, 10, 40, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 60px;
+            padding: 40px;
+            border: 1px solid rgba(255,215,0,0.1);
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,215,0,0.1) inset;
+            transition: all 0.4s;
+        }
+        .wheel-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 10px;
+        }
+        .wheel-title span {
+            color: #FFD700;
+            background: rgba(255,215,0,0.1);
+            padding: 5px 15px;
+            border-radius: 40px;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+        .wheel-sub {
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        /* The Wheel */
+        .wheel-wrapper {
+            position: relative;
+            width: 300px;
+            margin: 20px auto 40px;
+        }
+        canvas#wheelCanvas {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 50%;
+            box-shadow: 0 30px 50px -10px rgba(255,215,0,0.3), 0 0 0 3px rgba(255,215,0,0.2), 0 0 30px #ffd70033;
+            transition: transform 0.3s;
+        }
+        .wheel-pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 40px solid #FFD700;
+            filter: drop-shadow(0 10px 10px #00000066);
+            z-index: 5;
+        }
+        .spin-btn {
+            background: linear-gradient(145deg, #FFD700, #FF8C00);
+            border: none;
+            padding: 18px 40px;
+            border-radius: 60px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #0d0d1a;
+            cursor: pointer;
+            box-shadow: 0 20px 30px -5px #ff8c00b3, 0 5px 0 #b45f06;
+            transition: all 0.1s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            color: #6366f1;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s;
+            gap: 10px;
         }
-
-        .glass-card:hover .card-icon {
-            background: linear-gradient(135deg, #6366f1, #f472b6);
-            color: white;
-            transform: scale(1.1) rotate(5deg);
+        .spin-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 15px 25px -5px #ff8c00b3, 0 2px 0 #b45f06;
         }
-
-        .card-title {
+        .spin-btn:disabled {
+            opacity: 0.5;
+            transform: translateY(5px);
+            box-shadow: 0 10px 15px -5px #ff8c0080;
+            cursor: not-allowed;
+        }
+        .result-message {
+            margin-top: 25px;
+            text-align: center;
             font-size: 22px;
             font-weight: 600;
-            background: linear-gradient(135deg, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            min-height: 40px;
+            color: #FFD700;
+            text-shadow: 0 0 15px #ffd70080;
         }
 
-        .card-content {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            line-height: 1.8;
-            margin-bottom: 20px;
+        /* ---------- Withdrawal Panel (Cyber Style) ---------- */
+        .withdraw-card {
+            background: rgba(10, 5, 25, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 60px;
+            padding: 40px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            box-shadow: 0 40px 80px -20px #000, 0 0 0 1px #00ffff1a inset;
         }
-
-        /* Grammar Checker Specific */
-        .grammar-input {
-            width: 100%;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
+        .withdraw-title {
+            font-size: 32px;
+            font-weight: 600;
             color: white;
-            font-size: 14px;
-            margin-bottom: 15px;
-            resize: vertical;
-        }
-
-        .grammar-input:focus {
-            outline: none;
-            border-color: #6366f1;
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .grammar-output {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 20px;
-            padding: 15px;
-            min-height: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
-        }
-
-        /* Subject Selector */
-        .subject-selector {
+            margin-bottom: 30px;
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
+            align-items: center;
+            gap: 15px;
+        }
+        .withdraw-title i {
+            color: #00ffff;
+            font-size: 36px;
+        }
+        .withdraw-sub {
+            color: #ccc;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(0,255,255,0.03);
+            border-radius: 30px;
+            border-left: 4px solid #00ffff;
+            font-size: 15px;
         }
 
-        .subject-btn {
-            padding: 8px 20px;
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            color: rgba(255, 255, 255, 0.6);
+        /* Method Selector */
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .method-btn {
+            background: rgba(255,255,255,0.02);
+            border: 1.5px solid rgba(255,255,255,0.05);
+            border-radius: 40px;
+            padding: 18px 5px;
+            text-align: center;
+            color: white;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 13px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
         }
+        .method-btn i { font-size: 28px; }
+        .method-btn span { font-size: 14px; }
+        .method-btn.active {
+            background: rgba(0, 255, 255, 0.15);
+            border-color: #00ffff;
+            box-shadow: 0 0 25px #00ffff66;
+            color: #00ffff;
+        }
+        .method-btn.easypaisa.active i { color: #00ffff; }
+        .method-btn.jazzcash.active i { color: #00ffff; }
+        .method-btn.upaisa.active i { color: #00ffff; }
 
-        .subject-btn:hover,
-        .subject-btn.active {
-            background: linear-gradient(135deg, #6366f1, #f472b6);
+        /* Withdrawal Form */
+        .withdraw-form {
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            color: #aaa;
+            margin-bottom: 8px;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 18px 25px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 50px;
             color: white;
-            border-color: transparent;
+            font-size: 16px;
+            transition: all 0.3s;
         }
-
-        /* Notes List */
-        .notes-list {
-            max-height: 300px;
+        .form-group input:focus {
+            outline: none;
+            border-color: #00ffff;
+            background: rgba(0,255,255,0.05);
+            box-shadow: 0 0 30px #00ffff33;
+        }
+        .withdraw-action-btn {
+            background: linear-gradient(145deg, #00ffff, #008b8b);
+            border: none;
+            padding: 18px;
+            border-radius: 60px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #0a0a1a;
+            cursor: pointer;
+            box-shadow: 0 20px 30px -5px #00ffffb3, 0 5px 0 #006b6b;
+            transition: all 0.1s;
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .withdraw-action-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 15px 25px -5px #00ffffb3, 0 2px 0 #006b6b;
+        }
+        .withdraw-history {
+            margin-top: 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 40px;
+            padding: 20px;
+            max-height: 200px;
             overflow-y: auto;
         }
-
-        .note-item {
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 20px;
-            margin-bottom: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: all 0.3s;
-        }
-
-        .note-item:hover {
-            background: rgba(255, 255, 255, 0.03);
-            transform: translateX(5px);
-        }
-
-        .note-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: white;
-        }
-
-        .note-subject {
-            font-size: 12px;
-            color: #6366f1;
-        }
-
-        /* Q&A Section */
-        .qa-input {
-            width: 100%;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 30px;
-            color: white;
+        .history-title {
+            color: #00ffff;
             margin-bottom: 15px;
-        }
-
-        .qa-answer {
-            background: rgba(99, 102, 241, 0.1);
-            border-left: 3px solid #6366f1;
-            padding: 15px;
-            border-radius: 15px;
-            font-size: 14px;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        /* Calculators */
-        .calc-input {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .calc-field {
-            flex: 1;
-            min-width: 100px;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            color: white;
-        }
-
-        .calc-result {
-            font-size: 32px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #6366f1, #f472b6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-            padding: 20px;
-        }
-
-        /* Timer */
-        .timer-display {
-            font-size: 48px;
-            font-weight: 700;
-            text-align: center;
-            color: white;
-            margin: 20px 0;
-            font-feature-settings: "tnum";
-        }
-
-        .timer-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .timer-btn {
-            padding: 12px 25px;
-            border-radius: 40px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .timer-btn:hover {
-            background: linear-gradient(135deg, #6366f1, #f472b6);
-            border-color: transparent;
-        }
-
-        /* Dictionary */
-        .dict-word {
-            font-size: 28px;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 10px;
-        }
-
-        .dict-meaning {
-            color: rgba(255, 255, 255, 0.7);
             font-size: 16px;
-            margin-bottom: 10px;
-            line-height: 1.8;
-        }
-
-        .dict-example {
-            color: rgba(255, 255, 255, 0.4);
-            font-style: italic;
-            font-size: 14px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 15px;
-        }
-
-        /* Games Section */
-        .game-area {
-            text-align: center;
-        }
-
-        .game-question {
-            font-size: 24px;
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .game-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
+            align-items: center;
             gap: 10px;
-            margin-bottom: 20px;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #ccc;
+            font-size: 14px;
         }
 
-        .game-option {
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .game-option:hover {
-            background: rgba(99, 102, 241, 0.2);
-            transform: scale(1.02);
-        }
-
-        .game-score {
-            font-size: 20px;
-            color: #6366f1;
-        }
-
-        /* Features Grid 2 */
-        .features-grid-2 {
+        /* Footer Stats */
+        .stats-bar {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
-            margin: 40px 0;
+            margin-top: 40px;
         }
-
-        .feature-mini {
-            background: rgba(255, 255, 255, 0.01);
-            border-radius: 30px;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.02);
-        }
-
-        .feature-mini i {
-            font-size: 28px;
-            color: #6366f1;
-            margin-bottom: 15px;
-        }
-
-        .feature-mini h4 {
-            font-size: 16px;
-            margin-bottom: 8px;
-            color: white;
-        }
-
-        .feature-mini p {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        /* Footer */
-        footer {
-            margin-top: 80px;
-            padding: 40px;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.01);
+        .stat-block {
+            background: rgba(255,255,255,0.02);
             backdrop-filter: blur(10px);
             border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.02);
-            color: rgba(255, 255, 255, 0.3);
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255,215,0,0.1);
+        }
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #FFD700;
+        }
+        .stat-label {
+            color: #aaa;
             font-size: 14px;
+            text-transform: uppercase;
         }
 
         /* Responsive */
-        @media (max-width: 1200px) {
-            .main-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .features-grid-2 {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        @media (max-width: 1000px) {
+            .content-grid { grid-template-columns: 1fr; }
         }
-
-        @media (max-width: 768px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-            .features-grid-2 {
-                grid-template-columns: 1fr;
-            }
-            nav {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .hero h1 {
-                font-size: 40px;
-            }
-        }
-
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .floating {
-            animation: float 6s infinite;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #6366f1, #f472b6);
-            border-radius: 10px;
+        @media (max-width: 600px) {
+            .method-grid { grid-template-columns: 1fr; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .header { flex-direction: column; gap: 15px; }
         }
     </style>
 </head>
 <body>
-    <canvas id="canvas-bg"></canvas>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
-    <div class="container">
-        <!-- Navbar -->
-        <nav>
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <span class="logo-text">student•hub</span>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fas fa-dragon"></i></div>
+                <div class="logo-text">SPINVERSE</div>
             </div>
-            <div class="nav-links">
-                <a href="#" class="nav-link">home</a>
-                <a href="#" class="nav-link">subjects</a>
-                <a href="#" class="nav-link">notes</a>
-                <a href="#" class="nav-link">papers</a>
-                <a href="#" class="nav-link">tools</a>
+            <div class="balance-card">
+                <span class="balance-label"><i class="fas fa-coins"></i> Your Balance</span>
+                <span class="balance-amount" id="userBalance">1250</span> <span style="color:#FFD700;">PKR</span>
             </div>
-        </nav>
-
-        <!-- Hero -->
-        <div class="hero">
-            <h1>learn • grow • excel</h1>
-            <p>class 9–12 • complete study ecosystem</p>
         </div>
 
-        <!-- Main Grid - 9 Cards -->
-        <div class="main-grid">
-            <!-- Card 1: Grammar Checker -->
-            <div class="glass-card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-spell-check"></i>
-                    </div>
-                    <div class="card-title">grammar checker</div>
+        <!-- Main Grid: Wheel & Withdraw -->
+        <div class="content-grid">
+            <!-- Spin Wheel Card -->
+            <div class="wheel-card">
+                <div class="wheel-title">
+                    Cosmic Wheel <span>DAILY SPIN</span>
                 </div>
-                <div class="card-content">
-                    <textarea class="grammar-input" id="grammarInput" placeholder="type or paste your text here..." rows="3"></textarea>
-                    <button class="timer-btn" style="width: 100%; margin-bottom: 15px;" onclick="checkGrammar()">check grammar</button>
-                    <div class="grammar-output" id="grammarOutput">
-                        corrected text will appear here...
-                    </div>
+                <div class="wheel-sub">Spin once per day. Win up to 500 PKR instantly!</div>
+
+                <div class="wheel-wrapper">
+                    <canvas id="wheelCanvas" width="400" height="400"></canvas>
+                    <div class="wheel-pointer"></div>
                 </div>
+
+                <button class="spin-btn" id="spinButton" onclick="spinWheel()">
+                    <i class="fas fa-dharmachakra"></i> SPIN NOW
+                </button>
+                <div class="result-message" id="spinResult"></div>
             </div>
 
-            <!-- Card 2: Q&A Solver -->
-            <div class="glass-card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-question-circle"></i>
-                    </div>
-                    <div class="card-title">q&a solver</div>
+            <!-- Withdrawal Panel -->
+            <div class="withdraw-card">
+                <div class="withdraw-title">
+                    <i class="fas fa-hand-holding-usd"></i> Instant Withdrawal
                 </div>
-                <div class="card-content">
-                    <select class="grammar-input" id="qaSubject">
-                        <option>mathematics</option>
-                        <option>physics</option>
-                        <option>chemistry</option>
-                        <option>biology</option>
-                        <option>english</option>
-                        <option>urdu</option>
-                        <option>pakistan studies</option>
-                        <option>islamiat</option>
-                    </select>
-                    <input type="text" class="qa-input" id="qaQuestion" placeholder="type your question...">
-                    <button class="timer-btn" style="width: 100%; margin-bottom: 15px;" onclick="solveQuestion()">get answer</button>
-                    <div class="qa-answer" id="qaAnswer">
-                        answer will appear here...
-                    </div>
+                <div class="withdraw-sub">
+                    <i class="fas fa-check-circle" style="color: #00ffff;"></i> Min. withdrawal: 200 PKR · No fee · Instant
                 </div>
-            </div>
 
-            <!-- Card 3: Study Notes -->
-            <div class="glass-card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-book-open"></i>
+                <!-- Payment Methods -->
+                <div class="method-grid">
+                    <div class="method-btn easypaisa active" id="methodEasypaisa" onclick="selectMethod('easypaisa')">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>EasyPaisa</span>
                     </div>
-                    <div class="card-title">study notes</div>
-                </div>
-                <div class="card-content">
-                    <div class="subject-selector" id="noteSubjects">
-                        <span class="subject-btn active" onclick="filterNotes('all')">all</span>
-                        <span class="subject-btn" onclick="filterNotes('math')">math</span>
-                        <span class="subject-btn" onclick="filterNotes('physics')">physics</span>
-                        <span class="subject-btn" onclick="filterNotes('chemistry')">chem</span>
-                        <span class="subject-btn" onclick="filterNotes('biology')">bio</span>
+                    <div class="method-btn jazzcash" id="methodJazzcash" onclick="selectMethod('jazzcash')">
+                        <i class="fas fa-wallet"></i>
+                        <span>JazzCash</span>
                     </div>
-                    <div class="notes-list" id="notesList">
-                        <!-- Notes will be loaded here -->
+                    <div class="method-btn upaisa" id="methodUpaisa" onclick="selectMethod('upaisa')">
+                        <i class="fas fa-university"></i>
+                        <span>UPaisa</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Card 4: CGPA Calculator -->
-            <div class="glass-card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-calculator"></i>
+                <!-- Withdrawal Form -->
+                <div class="withdraw-form">
+                    <div class="form-group">
+                        <label><i class="far fa-user"></i> Account Holder Name</label>
+                        <input type="text" id="accountName" placeholder="e.g., Muhammad Ali" value="Muhammad Ali">
                     </div>
-                    <div class="card-title">cgpa calculator</div>
-                </div>
-                <div class="card-content">
-                    <div class="calc-input">
-                        <input type="number" class="calc-field" id="subject1" placeholder="subject 1 marks">
-                        <input type="number" class="calc-field" id="subject2" placeholder="subject 2 marks">
+                    <div class="form-group">
+                        <label><i class="fas fa-hashtag"></i> Account / Mobile Number</label>
+                        <input type="text" id="accountNumber" placeholder="03XX-XXXXXXX" value="0300 1234567">
                     </div>
-                    <div class="calc-input">
-                        <input type="number" class="calc-field" id="subject3" placeholder="subject 3 marks">
-                        <input type="number" class="calc-field" id="subject4" placeholder="subject 4 marks">
+                    <div class="form-group">
+                        <label><i class="fas fa-coins"></i> Amount (PKR)</label>
+                        <input type="number" id="withdrawAmount" placeholder="Min 200" value="300">
                     </div>
-                    <button class="timer-btn" style="width: 100%; margin: 15px 0;" onclick="calculateCGPA()">calculate</button>
-                    <div class="calc-result" id="cgpaResult">0.00</div>
-                </div>
-            </div>
 
-            <!-- Card 5: Study Timer -->
-            <div class="glass-card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="card-title">pomodoro timer</div>
+                    <button class="withdraw-action-btn" onclick="processWithdrawal()">
+                        <i class="fas fa-arrow-right-to-bracket"></i> WITHDRAW NOW
+                    </button>
                 </div>
-                <div class="card-content">
-                    <div class="timer-display" id="timerDisplay">25:00</div>
-                    <div class="timer-controls">
-                        <button class="timer-btn" onclick="startTimer()">start</button>
-                        <button class="timer-btn" onclick="pauseTimer()">pause</button>
-                        <button class="timer-btn" onclick="resetTimer()">reset</button>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Card 6: Dictionary -->
-            <div class="glass-card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-book"></i>
+                <!-- Withdrawal History (Demo) -->
+                <div class="withdraw-history">
+                    <div class="history-title"><i class="fas fa-clock"></i> Recent Withdrawals</div>
+                    <div id="historyList">
+                        <div class="history-item"><span>EasyPaisa • 0333******</span><span>500 PKR</span><span style="color:#0f0;">Success</span></div>
+                        <div class="history-item"><span>JazzCash • 0321******</span><span>200 PKR</span><span style="color:#0f0;">Success</span></div>
+                        <div class="history-item"><span>UPaisa • 0345******</span><span>1000 PKR</span><span style="color:#0f0;">Success</span></div>
                     </div>
-                    <div class="card-title">dictionary</div>
-                </div>
-                <div class="card-content">
-                    <input type="text" class="qa-input" id="wordInput" placeholder="enter word...">
-                    <button class="timer-btn" style="width: 100%; margin: 15px 0;" onclick="searchWord()">search</button>
-                    <div class="dict-word" id="dictWord">word</div>
-                    <div class="dict-meaning" id="dictMeaning">meaning will appear here...</div>
-                    <div class="dict-example" id="dictExample"></div>
-                </div>
-            </div>
-
-            <!-- Card 7: Past Papers -->
-            <div class="glass-card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <div class="card-title">past papers</div>
-                </div>
-                <div class="card-content">
-                    <select class="grammar-input" id="paperSubject">
-                        <option>mathematics 2024</option>
-                        <option>physics 2024</option>
-                        <option>chemistry 2024</option>
-                        <option>biology 2024</option>
-                        <option>english 2024</option>
-                        <option>urdu 2024</option>
-                    </select>
-                    <button class="timer-btn" style="width: 100%; margin: 15px 0;" onclick="downloadPaper()">download paper</button>
-                    <div class="note-item" style="text-align: center;">
-                        <i class="fas fa-download"></i> 5 years papers available
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 8: Educational Game -->
-            <div class="glass-card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <div class="card-title">math game</div>
-                </div>
-                <div class="card-content">
-                    <div class="game-area">
-                        <div class="game-question" id="gameQuestion">5 + 3 = ?</div>
-                        <div class="game-options" id="gameOptions">
-                            <div class="game-option" onclick="checkGameAnswer(8)">8</div>
-                            <div class="game-option" onclick="checkGameAnswer(7)">7</div>
-                            <div class="game-option" onclick="checkGameAnswer(9)">9</div>
-                            <div class="game-option" onclick="checkGameAnswer(6)">6</div>
-                        </div>
-                        <div class="game-score" id="gameScore">score: 0</div>
-                        <button class="timer-btn" style="margin-top: 15px;" onclick="newGameQuestion()">next question</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 9: Attendance Tracker -->
-            <div class="glass-card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <div class="card-title">attendance</div>
-                </div>
-                <div class="card-content">
-                    <div class="calc-input">
-                        <input type="number" class="calc-field" id="totalClasses" placeholder="total classes">
-                        <input type="number" class="calc-field" id="attendedClasses" placeholder="attended">
-                    </div>
-                    <button class="timer-btn" style="width: 100%; margin: 15px 0;" onclick="calculateAttendance()">calculate</button>
-                    <div class="calc-result" id="attendanceResult">0%</div>
                 </div>
             </div>
         </div>
 
-        <!-- Features Grid 2 -->
-        <div class="features-grid-2">
-            <div class="feature-mini">
-                <i class="fas fa-chart-line"></i>
-                <h4>progress tracker</h4>
-                <p>monitor your improvement</p>
-            </div>
-            <div class="feature-mini">
-                <i class="fas fa-tasks"></i>
-                <h4>daily tasks</h4>
-                <p>stay organized</p>
-            </div>
-            <div class="feature-mini">
-                <i class="fas fa-stopwatch"></i>
-                <h4>speed tests</h4>
-                <p>improve speed</p>
-            </div>
-            <div class="feature-mini">
-                <i class="fas fa-medal"></i>
-                <h4>achievements</h4>
-                <p>earn badges</p>
-            </div>
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-block"><div class="stat-value" id="totalWon">3,450</div><div class="stat-label">Total Won (PKR)</div></div>
+            <div class="stat-block"><div class="stat-value" id="usersSpun">1.2k</div><div class="stat-label">Spins Today</div></div>
+            <div class="stat-block"><div class="stat-value" id="biggestWin">500</div><div class="stat-label">Biggest Win</div></div>
+            <div class="stat-block"><div class="stat-value" id="withdrawalCount">98</div><div class="stat-label">Payouts</div></div>
         </div>
-
-        <!-- Footer -->
-        <footer>
-            <p>student hub • class 9–12 • complete study ecosystem • 2026</p>
-        </footer>
     </div>
 
     <script>
-        // ==================== 3D BACKGROUND ====================
-        const canvas = document.getElementById('canvas-bg');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        (function() {
+            // -------------------- SPIN WHEEL LOGIC --------------------
+            const canvas = document.getElementById('wheelCanvas');
+            const ctx = canvas.getContext('2d');
+            const spinResultDiv = document.getElementById('spinResult');
+            const spinButton = document.getElementById('spinButton');
+            const balanceSpan = document.getElementById('userBalance');
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.speedX = Math.random() * 0.2 - 0.1;
-                this.speedY = Math.random() * 0.2 - 0.1;
-                this.opacity = Math.random() * 0.2 + 0.1;
-            }
-
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
-            }
-
-            draw() {
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        const particles = [];
-        for (let i = 0; i < 100; i++) {
-            particles.push(new Particle());
-        }
-
-        function animateBackground() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            const gradient = ctx.createRadialGradient(
-                canvas.width/2, canvas.height/2, 0,
-                canvas.width/2, canvas.height/2, canvas.width
-            );
-            gradient.addColorStop(0, 'rgba(99, 102, 241, 0.02)');
-            gradient.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
-            gradient.addColorStop(1, 'rgba(244, 114, 182, 0.02)');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-
-            requestAnimationFrame(animateBackground);
-        }
-
-        animateBackground();
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        // ==================== GRAMMAR CHECKER ====================
-        function checkGrammar() {
-            const input = document.getElementById('grammarInput').value;
-            const output = document.getElementById('grammarOutput');
-            
-            if (!input) {
-                output.innerHTML = 'please enter some text to check.';
-                return;
-            }
-            
-            // Simple grammar rules
-            let corrected = input
-                .replace(/\bi\b/g, 'I')
-                .replace(/\s+/g, ' ')
-                .replace(/\s([?.!])/g, '$1')
-                .replace(/([^.?!])\s*$/, '$1.');
-            
-            output.innerHTML = corrected;
-        }
-
-        // ==================== Q&A SOLVER ====================
-        const qaDatabase = {
-            mathematics: {
-                'pythagoras theorem': 'In a right-angled triangle, the square of the hypotenuse equals the sum of squares of other two sides. a² + b² = c²',
-                'quadratic formula': 'x = [-b ± √(b² - 4ac)] / 2a',
-                'default': 'Please ask a specific math question.'
-            },
-            physics: {
-                'newton first law': 'An object remains at rest or in uniform motion unless acted upon by an external force.',
-                'ohms law': 'V = IR (Voltage = Current × Resistance)',
-                'default': 'Please ask a specific physics question.'
-            },
-            chemistry: {
-                'periodic table': 'Elements arranged by atomic number, electron configuration, and recurring chemical properties.',
-                'mole concept': 'One mole = 6.022 × 10²³ particles',
-                'default': 'Please ask a specific chemistry question.'
-            }
-        };
-
-        function solveQuestion() {
-            const subject = document.getElementById('qaSubject').value.toLowerCase();
-            const question = document.getElementById('qaQuestion').value.toLowerCase();
-            const answerDiv = document.getElementById('qaAnswer');
-            
-            if (!question) {
-                answerDiv.innerHTML = 'please type your question.';
-                return;
-            }
-            
-            let answer = '';
-            
-            if (qaDatabase[subject]) {
-                if (qaDatabase[subject][question]) {
-                    answer = qaDatabase[subject][question];
-                } else {
-                    answer = qaDatabase[subject]['default'] || 'Answer processing...';
-                }
-            } else {
-                answer = 'Answer: ' + question.split(' ').reverse().join(' ') + '?';
-            }
-            
-            answerDiv.innerHTML = answer;
-        }
-
-        // ==================== STUDY NOTES ====================
-        const notesData = [
-            { subject: 'math', title: 'Quadratic Equations', class: '10th', content: 'ax² + bx + c = 0' },
-            { subject: 'physics', title: 'Laws of Motion', class: '9th', content: 'Newton\'s three laws of motion...' },
-            { subject: 'chemistry', title: 'Periodic Table', class: '11th', content: 'Groups and periods explained...' },
-            { subject: 'biology', title: 'Cell Structure', class: '11th', content: 'Plant vs animal cells...' },
-            { subject: 'math', title: 'Trigonometry', class: '10th', content: 'sin, cos, tan formulas...' },
-            { subject: 'physics', title: 'Thermodynamics', class: '12th', content: 'Laws of thermodynamics...' }
-        ];
-
-        function displayNotes(filter = 'all') {
-            const notesList = document.getElementById('notesList');
-            const filtered = filter === 'all' ? notesData : notesData.filter(n => n.subject === filter);
-            
-            notesList.innerHTML = filtered.map(note => `
-                <div class="note-item">
-                    <div class="note-title">${note.title}</div>
-                    <div class="note-subject">${note.subject} • class ${note.class}</div>
-                    <div style="font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 5px;">${note.content.substring(0, 50)}...</div>
-                </div>
-            `).join('');
-        }
-
-        function filterNotes(subject) {
-            document.querySelectorAll('.subject-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            displayNotes(subject);
-        }
-
-        // ==================== CGPA CALCULATOR ====================
-        function calculateCGPA() {
-            const marks = [
-                parseFloat(document.getElementById('subject1').value) || 0,
-                parseFloat(document.getElementById('subject2').value) || 0,
-                parseFloat(document.getElementById('subject3').value) || 0,
-                parseFloat(document.getElementById('subject4').value) || 0
+            // Wheel segments (prizes)
+            const segments = [
+                { label: '50 PKR', value: 50, color: '#FF6B6B' },
+                { label: '100 PKR', value: 100, color: '#4ECDC4' },
+                { label: '20 PKR', value: 20, color: '#FFD93D' },
+                { label: '200 PKR', value: 200, color: '#6BCB77' },
+                { label: '10 PKR', value: 10, color: '#FF9F1C' },
+                { label: '500 PKR', value: 500, color: '#9B5DE5' },
+                { label: 'LOSE', value: 0, color: '#2D3047' },
+                { label: '150 PKR', value: 150, color: '#F25F5C' }
             ];
-            
-            const total = marks.reduce((a, b) => a + b, 0);
-            const percentage = total / 4;
-            const cgpa = (percentage / 9.5).toFixed(2);
-            
-            document.getElementById('cgpaResult').innerHTML = cgpa;
-        }
 
-        // ==================== POMODORO TIMER ====================
-        let timerInterval;
-        let timerSeconds = 25 * 60;
-        let timerRunning = false;
+            let currentAngle = 0;
+            let isSpinning = false;
+            let spinCount = 0; // for demo, we allow multiple spins
+            let balance = parseInt(balanceSpan.innerText) || 1250;
 
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timerSeconds / 60);
-            const seconds = timerSeconds % 60;
-            document.getElementById('timerDisplay').innerHTML = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
+            // Draw the wheel
+            function drawWheel(angle = 0) {
+                const arc = (2 * Math.PI) / segments.length;
+                ctx.clearRect(0, 0, 400, 400);
+                for (let i = 0; i < segments.length; i++) {
+                    const startAngle = i * arc + angle;
+                    const endAngle = startAngle + arc;
+                    ctx.beginPath();
+                    ctx.fillStyle = segments[i].color;
+                    ctx.moveTo(200, 200);
+                    ctx.arc(200, 200, 200, startAngle, endAngle);
+                    ctx.closePath();
+                    ctx.fill();
 
-        function startTimer() {
-            if (timerRunning) return;
-            timerRunning = true;
-            timerInterval = setInterval(() => {
-                if (timerSeconds > 0) {
-                    timerSeconds--;
-                    updateTimerDisplay();
-                } else {
-                    clearInterval(timerInterval);
-                    timerRunning = false;
-                    alert('study session complete! take a break.');
+                    // Draw text
+                    ctx.save();
+                    ctx.translate(200, 200);
+                    ctx.rotate(startAngle + arc / 2);
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = 'white';
+                    ctx.font = 'bold 18px "Space Grotesk", sans-serif';
+                    ctx.shadowColor = 'black';
+                    ctx.shadowBlur = 8;
+                    ctx.fillText(segments[i].label, 100, 10);
+                    ctx.restore();
                 }
-            }, 1000);
-        }
-
-        function pauseTimer() {
-            clearInterval(timerInterval);
-            timerRunning = false;
-        }
-
-        function resetTimer() {
-            clearInterval(timerInterval);
-            timerRunning = false;
-            timerSeconds = 25 * 60;
-            updateTimerDisplay();
-        }
-
-        // ==================== DICTIONARY ====================
-        const dictionary = {
-            'apple': { meaning: 'a round fruit with red or green skin', example: 'I ate an apple.' },
-            'book': { meaning: 'a set of written pages', example: 'She read a book.' },
-            'computer': { meaning: 'an electronic device', example: 'He uses a computer.' },
-            'default': { meaning: 'word not found in dictionary', example: '' }
-        };
-
-        function searchWord() {
-            const word = document.getElementById('wordInput').value.toLowerCase();
-            const dictWord = document.getElementById('dictWord');
-            const dictMeaning = document.getElementById('dictMeaning');
-            const dictExample = document.getElementById('dictExample');
-            
-            if (!word) {
-                dictWord.innerHTML = 'enter a word';
-                dictMeaning.innerHTML = '';
-                dictExample.innerHTML = '';
-                return;
+                // Draw center circle
+                ctx.beginPath();
+                ctx.arc(200, 200, 40, 0, 2 * Math.PI);
+                ctx.fillStyle = '#1e1e2a';
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = '#FFD700';
+                ctx.fill();
+                ctx.shadowBlur = 0;
             }
-            
-            const entry = dictionary[word] || dictionary['default'];
-            dictWord.innerHTML = word;
-            dictMeaning.innerHTML = entry.meaning;
-            dictExample.innerHTML = entry.example;
-        }
 
-        // ==================== PAST PAPERS ====================
-        function downloadPaper() {
-            const subject = document.getElementById('paperSubject').value;
-            alert(`downloading ${subject} past paper... (demo)`);
-        }
+            drawWheel(currentAngle);
 
-        // ==================== MATH GAME ====================
-        let gameScore = 0;
-        let currentAnswer = 0;
+            // Spin logic
+            window.spinWheel = function() {
+                if (isSpinning) return;
 
-        function newGameQuestion() {
-            const num1 = Math.floor(Math.random() * 10) + 1;
-            const num2 = Math.floor(Math.random() * 10) + 1;
-            currentAnswer = num1 + num2;
-            
-            document.getElementById('gameQuestion').innerHTML = `${num1} + ${num2} = ?`;
-            
-            const options = [currentAnswer];
-            while (options.length < 4) {
-                const random = Math.floor(Math.random() * 20) + 1;
-                if (!options.includes(random)) options.push(random);
-            }
-            options.sort(() => Math.random() - 0.5);
-            
-            const optionsHtml = options.map(opt => 
-                `<div class="game-option" onclick="checkGameAnswer(${opt})">${opt}</div>`
-            ).join('');
-            
-            document.getElementById('gameOptions').innerHTML = optionsHtml;
-        }
+                // You can add daily limit check here (using localStorage)
+                isSpinning = true;
+                spinButton.disabled = true;
+                spinResultDiv.innerHTML = 'Spinning...';
 
-        function checkGameAnswer(answer) {
-            if (answer === currentAnswer) {
-                gameScore += 10;
-                alert('correct! +10 points');
-            } else {
-                gameScore -= 5;
-                alert(`wrong! correct answer was ${currentAnswer}`);
-            }
-            document.getElementById('gameScore').innerHTML = `score: ${gameScore}`;
-            newGameQuestion();
-        }
+                const spinRevolutions = 10 + Math.floor(Math.random() * 10);
+                const targetAngle = currentAngle + (spinRevolutions * 2 * Math.PI) + (Math.random() * 2 * Math.PI);
+                const duration = 3000; // 3 seconds
+                const startTime = performance.now();
+                const startAngle = currentAngle;
 
-        // ==================== ATTENDANCE TRACKER ====================
-        function calculateAttendance() {
-            const total = parseFloat(document.getElementById('totalClasses').value) || 0;
-            const attended = parseFloat(document.getElementById('attendedClasses').value) || 0;
-            
-            if (total === 0) {
-                document.getElementById('attendanceResult').innerHTML = '0%';
-                return;
-            }
-            
-            const percentage = ((attended / total) * 100).toFixed(1);
-            document.getElementById('attendanceResult').innerHTML = percentage + '%';
-        }
+                // Animate spin
+                function animateSpin(now) {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    // Easing out cubic
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+                    currentAngle = startAngle + (targetAngle - startAngle) * easeOut;
+                    drawWheel(currentAngle);
 
-        // ==================== INITIALIZE ====================
-        window.onload = () => {
-            displayNotes();
-            updateTimerDisplay();
-            newGameQuestion();
-        };
+                    if (progress < 1) {
+                        requestAnimationFrame(animateSpin);
+                    } else {
+                        // Spin finished: determine prize
+                        const finalAngle = currentAngle % (2 * Math.PI);
+                        const segmentIndex = Math.floor((2 * Math.PI - (finalAngle % (2 * Math.PI))) / ((2 * Math.PI) / segments.length)) % segments.length;
+                        const prize = segments[segmentIndex].value;
+                        const prizeLabel = segments[segmentIndex].label;
+
+                        // Update balance
+                        if (prize > 0) {
+                            balance += prize;
+                            balanceSpan.innerText = balance;
+                            spinResultDiv.innerHTML = `🎉 You won ${prize} PKR! New balance: ${balance} PKR.`;
+                            // Update total won stat (demo)
+                            document.getElementById('totalWon').innerText = (parseInt(document.getElementById('totalWon').innerText.replace(/,/g,'')) + prize).toLocaleString();
+                        } else {
+                            spinResultDiv.innerHTML = `😢 You lost! Better luck next time.`;
+                        }
+
+                        isSpinning = false;
+                        spinButton.disabled = false;
+                    }
+                }
+                requestAnimationFrame(animateSpin);
+            };
+
+            // -------------------- WITHDRAWAL SYSTEM --------------------
+            window.selectMethod = function(method) {
+                document.querySelectorAll('.method-btn').forEach(btn => btn.classList.remove('active'));
+                if (method === 'easypaisa') document.getElementById('methodEasypaisa').classList.add('active');
+                if (method === 'jazzcash') document.getElementById('methodJazzcash').classList.add('active');
+                if (method === 'upaisa') document.getElementById('methodUpaisa').classList.add('active');
+            };
+
+            window.processWithdrawal = function() {
+                const amount = parseInt(document.getElementById('withdrawAmount').value);
+                const accountName = document.getElementById('accountName').value;
+                const accountNumber = document.getElementById('accountNumber').value;
+                let method = 'EasyPaisa';
+                if (document.getElementById('methodJazzcash').classList.contains('active')) method = 'JazzCash';
+                if (document.getElementById('methodUpaisa').classList.contains('active')) method = 'UPaisa';
+
+                if (!accountName || !accountNumber) {
+                    alert('❌ Please fill all details.');
+                    return;
+                }
+                if (amount < 200) {
+                    alert('❌ Minimum withdrawal amount is 200 PKR.');
+                    return;
+                }
+                if (amount > balance) {
+                    alert('❌ Insufficient balance.');
+                    return;
+                }
+
+                // Deduct balance
+                balance -= amount;
+                balanceSpan.innerText = balance;
+
+                // Add to history
+                const historyDiv = document.getElementById('historyList');
+                const newEntry = document.createElement('div');
+                newEntry.className = 'history-item';
+                newEntry.innerHTML = `<span>${method} • ${accountNumber.slice(0,4)}******</span><span>${amount} PKR</span><span style="color:#0f0;">Pending</span>`;
+                historyDiv.prepend(newEntry);
+
+                // Update withdrawal count stat
+                let wdCount = parseInt(document.getElementById('withdrawalCount').innerText);
+                document.getElementById('withdrawalCount').innerText = wdCount + 1;
+
+                alert(`✅ Withdrawal request of ${amount} PKR via ${method} submitted successfully! It will be processed within 2 hours.`);
+            };
+
+            // Initialize some stats (demo)
+            // Update total won based on demo wins (not critical)
+        })();
     </script>
+    <!-- Font Awesome 6 (already included) -->
 </body>
 </html>
