@@ -44,7 +44,7 @@
             z-index: 10;
         }
 
-        /* Header - Pehle Jaisa */
+        /* Header */
         .header {
             background: white;
             border-radius: 30px;
@@ -101,6 +101,29 @@
             font-weight: 600;
         }
 
+        /* Timer Display */
+        .timer-container {
+            background: #fef9e7;
+            border-radius: 60px;
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #fbbf24;
+            margin-top: 15px;
+        }
+
+        .timer-container i {
+            color: #fbbf24;
+            font-size: 20px;
+        }
+
+        .timer-text {
+            color: #92400e;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
         /* Main Grid */
         .content-grid {
             display: grid;
@@ -108,7 +131,7 @@
             gap: 30px;
         }
 
-        /* Spin Card - Pehle Jaisa */
+        /* Spin Card */
         .spin-card {
             background: white;
             border-radius: 50px;
@@ -117,7 +140,7 @@
         }
 
         .spin-header {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .spin-header h2 {
@@ -134,7 +157,7 @@
             font-size: 36px;
         }
 
-        /* Wheel - Pehle Jaisa */
+        /* Wheel */
         .wheel-wrapper {
             position: relative;
             width: 380px;
@@ -163,7 +186,7 @@
             z-index: 5;
         }
 
-        /* Spin Button - Pehle Jaisa */
+        /* Spin Button */
         .spin-btn {
             width: 100%;
             padding: 22px;
@@ -180,12 +203,19 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
-            margin: 30px 0 20px;
+            margin: 20px 0;
         }
 
         .spin-btn:active {
             transform: translateY(6px);
             box-shadow: 0 15px 25px -8px #fbbf24, 0 2px 0 #b45309;
+        }
+
+        .spin-btn:disabled {
+            opacity: 0.6;
+            transform: translateY(6px);
+            box-shadow: 0 10px 20px -8px #fbbf24, 0 2px 0 #b45309;
+            cursor: not-allowed;
         }
 
         .result-message {
@@ -197,9 +227,10 @@
             background: #f8fafc;
             border-radius: 60px;
             border: 1px solid #e2e8f0;
+            margin-top: 20px;
         }
 
-        /* Withdrawal Card - Pehle Jaisa */
+        /* Withdrawal Card - Without Icons */
         .withdraw-card {
             background: white;
             border-radius: 50px;
@@ -230,7 +261,7 @@
             font-size: 14px;
         }
 
-        /* Method Grid - Pehle Jaisa */
+        /* Method Grid - Without Icons, Only Text */
         .method-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -242,20 +273,10 @@
             background: white;
             border: 2px solid #e2e8f0;
             border-radius: 30px;
-            padding: 25px 10px;
+            padding: 20px 10px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .method-btn img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
         }
 
         .method-btn.active {
@@ -266,10 +287,10 @@
         .method-btn span {
             font-weight: 600;
             color: #334155;
-            font-size: 14px;
+            font-size: 16px;
         }
 
-        /* Form - Pehle Jaisa, Lekin Bilkul Khali */
+        /* Form */
         .withdraw-form {
             margin-top: 30px;
         }
@@ -301,10 +322,6 @@
             border-color: #fbbf24;
         }
 
-        .form-group input::placeholder {
-            color: #94a3b8;
-        }
-
         .withdraw-action-btn {
             width: 100%;
             padding: 18px;
@@ -328,7 +345,7 @@
             box-shadow: 0 15px 25px -8px #fbbf24;
         }
 
-        /* History - Pehle Jaisa */
+        /* History */
         .withdraw-history {
             margin-top: 30px;
             background: #f8fafc;
@@ -375,7 +392,7 @@
             font-weight: 600;
         }
 
-        /* Stats - Sab Zero */
+        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -462,6 +479,12 @@
                     </h2>
                 </div>
 
+                <!-- Timer Display -->
+                <div class="timer-container" id="timerContainer">
+                    <i class="fas fa-hourglass-half"></i>
+                    <span class="timer-text" id="timerText">Ready to Spin!</span>
+                </div>
+
                 <div class="wheel-wrapper">
                     <canvas id="wheelCanvas" width="400" height="400"></canvas>
                     <div class="wheel-pointer"></div>
@@ -476,7 +499,7 @@
                 </div>
             </div>
 
-            <!-- Withdrawal Card - Pehle Jaisa, Lekin Fields Khali -->
+            <!-- Withdrawal Card - Without Icons -->
             <div class="withdraw-card">
                 <div class="withdraw-header">
                     <h2>
@@ -485,26 +508,20 @@
                     </h2>
                 </div>
 
-                <!-- Method Grid -->
+                <!-- Method Grid - Text Only -->
                 <div class="method-grid">
                     <div class="method-btn active" id="methodEasypaisa" onclick="selectMethod('easypaisa')">
-                        <img src="https://crystalpng.com/wp-content/uploads/2026/03/easypaisa-logo.png" 
-                             alt="Easypaisa">
                         <span>Easypaisa</span>
                     </div>
                     <div class="method-btn" id="methodJazzcash" onclick="selectMethod('jazzcash')">
-                        <img src="https://crystalpng.com/wp-content/uploads/2024/12/new-jazzcash-logo.png" 
-                             alt="JazzCash">
                         <span>JazzCash</span>
                     </div>
                     <div class="method-btn" id="methodUpaisa" onclick="selectMethod('upaisa')">
-                        <img src="https://crystalpng.com/wp-content/uploads/2025/09/upaisa-logo.png" 
-                             alt="UPaisa">
                         <span>UPaisa</span>
                     </div>
                 </div>
 
-                <!-- Form - Bilkul Khali -->
+                <!-- Form -->
                 <div class="withdraw-form">
                     <div class="form-group">
                         <label>Full Name</label>
@@ -527,53 +544,55 @@
                 <!-- History -->
                 <div class="withdraw-history">
                     <div class="history-title">
-                        <i class="fas fa-clock-rotate-left"></i> Recent Transactions
+                        <i class="fas fa-clock-rotate-left"></i> Recent Withdrawals
                     </div>
                     <div id="historyList">
-                        <!-- Empty initially -->
+                        <!-- History will be loaded from localStorage -->
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Stats - Sab Zero -->
+        <!-- Stats - Global Records -->
         <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-number" id="totalSpins">0</div>
+                <div class="stat-label">Total Spins</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="totalPayouts">0</div>
+                <div class="stat-label">Total Payouts</div>
+            </div>
             <div class="stat-box">
                 <div class="stat-number" id="totalWon">0</div>
                 <div class="stat-label">Total Won</div>
             </div>
             <div class="stat-box">
-                <div class="stat-number" id="todaySpins">0</div>
-                <div class="stat-label">Today's Spins</div>
-            </div>
-            <div class="stat-box">
                 <div class="stat-number" id="biggestWin">0</div>
                 <div class="stat-label">Biggest Win</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-number" id="payouts">0</div>
-                <div class="stat-label">Payouts</div>
             </div>
         </div>
     </div>
 
     <script>
         (function() {
-            // ========== SPIN WHEEL ==========
+            // ========== INITIALIZATION ==========
             const canvas = document.getElementById('wheelCanvas');
             const ctx = canvas.getContext('2d');
             const spinResult = document.getElementById('spinResult');
             const spinButton = document.getElementById('spinButton');
             const balanceSpan = document.getElementById('userBalance');
+            const timerText = document.getElementById('timerText');
+            const timerContainer = document.getElementById('timerContainer');
             
-            // Stats elements - sab zero
+            // Stats elements
+            const totalSpinsEl = document.getElementById('totalSpins');
+            const totalPayoutsEl = document.getElementById('totalPayouts');
             const totalWonEl = document.getElementById('totalWon');
-            const todaySpinsEl = document.getElementById('todaySpins');
             const biggestWinEl = document.getElementById('biggestWin');
-            const payoutsEl = document.getElementById('payouts');
             const historyList = document.getElementById('historyList');
 
-            // Prize segments
+            // Prize segments - Fixed order
             const segments = [
                 { label: '1 RS', value: 1, color: '#F87171' },
                 { label: '😞', value: 0, color: '#9CA3AF' },
@@ -588,27 +607,59 @@
 
             let currentAngle = 0;
             let isSpinning = false;
-            let balance = 0; // Zero se start
-            let spinCount = 0;
-            
-            // Daily stats - sab zero
-            let dailyStats = {
-                totalWon: 0,
-                todaySpins: 0,
-                biggestWin: 0,
-                payouts: 0,
-                history: []
-            };
-            
-            balanceSpan.innerText = balance;
 
-            function updateStatsDisplay() {
-                totalWonEl.innerText = dailyStats.totalWon;
-                todaySpinsEl.innerText = dailyStats.todaySpins;
-                biggestWinEl.innerText = dailyStats.biggestWin;
-                payoutsEl.innerText = dailyStats.payouts;
+            // ========== LOCALSTORAGE DATA ==========
+            function loadData() {
+                // User balance
+                let balance = parseFloat(localStorage.getItem('userBalance')) || 0;
+                balanceSpan.innerText = balance;
                 
-                historyList.innerHTML = dailyStats.history.map(item => `
+                // Global stats
+                let totalSpins = parseInt(localStorage.getItem('totalSpins')) || 0;
+                let totalPayouts = parseInt(localStorage.getItem('totalPayouts')) || 0;
+                let totalWon = parseFloat(localStorage.getItem('totalWon')) || 0;
+                let biggestWin = parseFloat(localStorage.getItem('biggestWin')) || 0;
+                
+                totalSpinsEl.innerText = totalSpins;
+                totalPayoutsEl.innerText = totalPayouts;
+                totalWonEl.innerText = totalWon.toFixed(1);
+                biggestWinEl.innerText = biggestWin.toFixed(1);
+                
+                // Withdrawal history
+                let history = JSON.parse(localStorage.getItem('withdrawalHistory')) || [];
+                displayHistory(history);
+                
+                // Last spin time
+                let lastSpinTime = localStorage.getItem('lastSpinTime');
+                if (lastSpinTime) {
+                    updateTimer(parseInt(lastSpinTime));
+                } else {
+                    timerText.innerText = 'Ready to Spin!';
+                    timerContainer.style.background = '#fef9e7';
+                }
+                
+                return { balance, totalSpins, totalPayouts, totalWon, biggestWin, history, lastSpinTime };
+            }
+
+            function saveBalance(balance) {
+                localStorage.setItem('userBalance', balance);
+                balanceSpan.innerText = balance;
+            }
+
+            function saveGlobalStats(spins, payouts, won, biggest) {
+                localStorage.setItem('totalSpins', spins);
+                localStorage.setItem('totalPayouts', payouts);
+                localStorage.setItem('totalWon', won);
+                localStorage.setItem('biggestWin', biggest);
+                
+                totalSpinsEl.innerText = spins;
+                totalPayoutsEl.innerText = payouts;
+                totalWonEl.innerText = won.toFixed(1);
+                biggestWinEl.innerText = biggest.toFixed(1);
+            }
+
+            function displayHistory(history) {
+                historyList.innerHTML = history.map(item => `
                     <div class="history-item">
                         <span>${item.method} • ${item.number.slice(0,4)}******</span>
                         <span>${item.amount} PKR</span>
@@ -617,7 +668,27 @@
                 `).join('');
             }
 
-            // Draw wheel
+            // ========== TIMER FUNCTIONS ==========
+            function updateTimer(lastSpinTime) {
+                const now = Date.now();
+                const hoursPassed = (now - lastSpinTime) / (1000 * 60 * 60);
+                
+                if (hoursPassed >= 1) {
+                    spinButton.disabled = false;
+                    timerText.innerText = 'Ready to Spin!';
+                    timerContainer.style.background = '#fef9e7';
+                    return true;
+                } else {
+                    spinButton.disabled = true;
+                    const minutesLeft = Math.ceil((60 - (hoursPassed * 60)));
+                    timerText.innerText = `Next spin in ${minutesLeft} minute${minutesLeft > 1 ? 's' : ''}`;
+                    timerContainer.style.background = '#fee2e2';
+                    timerContainer.style.borderColor = '#ef4444';
+                    return false;
+                }
+            }
+
+            // ========== DRAW WHEEL ==========
             function drawWheel(angle = 0) {
                 const arc = (2 * Math.PI) / segments.length;
                 ctx.clearRect(0, 0, 400, 400);
@@ -639,6 +710,8 @@
                     ctx.textAlign = 'center';
                     ctx.fillStyle = 'white';
                     ctx.font = 'bold 16px Inter';
+                    ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                    ctx.shadowBlur = 5;
                     ctx.fillText(segments[i].label, 100, 8);
                     ctx.restore();
                 }
@@ -647,7 +720,10 @@
                 ctx.beginPath();
                 ctx.arc(200, 200, 45, 0, 2 * Math.PI);
                 ctx.fillStyle = '#fbbf24';
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#fbbf24';
                 ctx.fill();
+                ctx.shadowBlur = 0;
                 
                 ctx.beginPath();
                 ctx.arc(200, 200, 35, 0, 2 * Math.PI);
@@ -655,9 +731,7 @@
                 ctx.fill();
             }
 
-            drawWheel(currentAngle);
-
-            // Money Rain
+            // ========== MONEY RAIN ==========
             function startMoneyRain() {
                 const rainContainer = document.getElementById('moneyRain');
                 for (let i = 0; i < 15; i++) {
@@ -666,14 +740,27 @@
                     note.innerHTML = '💰';
                     note.style.left = Math.random() * 100 + '%';
                     note.style.animationDelay = Math.random() * 2 + 's';
+                    note.style.fontSize = (Math.random() * 20 + 25) + 'px';
                     rainContainer.appendChild(note);
                     
                     setTimeout(() => note.remove(), 3000);
                 }
             }
 
-            // Spin function
+            // ========== SPIN FUNCTION ==========
             window.spinWheel = function() {
+                let data = loadData();
+                let lastSpinTime = data.lastSpinTime ? parseInt(data.lastSpinTime) : null;
+                
+                if (lastSpinTime) {
+                    let hoursPassed = (Date.now() - lastSpinTime) / (1000 * 60 * 60);
+                    if (hoursPassed < 1) {
+                        let minutesLeft = Math.ceil(60 - (hoursPassed * 60));
+                        spinResult.innerHTML = `⏰ Please wait ${minutesLeft} minutes!`;
+                        return;
+                    }
+                }
+
                 if (isSpinning) return;
 
                 isSpinning = true;
@@ -691,38 +778,46 @@
                     if (spinVelocity > 0.002) {
                         requestAnimationFrame(animateSpin);
                     } else {
+                        // Calculate prize
                         const finalAngle = currentAngle % (2 * Math.PI);
                         let segmentIndex = Math.floor((2 * Math.PI - finalAngle) / ((2 * Math.PI) / segments.length)) % segments.length;
                         
                         const prize = segments[segmentIndex].value;
                         
                         if (prize > 0) {
-                            balance += prize;
-                            balanceSpan.innerText = balance;
+                            // Update balance
+                            let newBalance = data.balance + prize;
+                            saveBalance(newBalance);
                             
-                            dailyStats.totalWon += prize;
-                            dailyStats.todaySpins += 1;
-                            if (prize > dailyStats.biggestWin) {
-                                dailyStats.biggestWin = prize;
-                            }
+                            // Update global stats
+                            let newTotalWon = data.totalWon + prize;
+                            let newBiggestWin = prize > data.biggestWin ? prize : data.biggestWin;
+                            let newTotalSpins = data.totalSpins + 1;
+                            
+                            saveGlobalStats(newTotalSpins, data.totalPayouts, newTotalWon, newBiggestWin);
                             
                             spinResult.innerHTML = `🎉 You won ${prize} PKR!`;
                             startMoneyRain();
                         } else {
+                            // Update spins only
+                            let newTotalSpins = data.totalSpins + 1;
+                            saveGlobalStats(newTotalSpins, data.totalPayouts, data.totalWon, data.biggestWin);
+                            
                             spinResult.innerHTML = `😞 Better luck next time!`;
                         }
                         
-                        updateStatsDisplay();
+                        // Save spin time
+                        localStorage.setItem('lastSpinTime', Date.now());
+                        updateTimer(Date.now());
                         
                         isSpinning = false;
-                        spinButton.disabled = false;
                     }
                 }
 
                 requestAnimationFrame(animateSpin);
             };
 
-            // Withdrawal methods
+            // ========== WITHDRAWAL METHODS ==========
             window.selectMethod = function(method) {
                 document.querySelectorAll('.method-btn').forEach(btn => btn.classList.remove('active'));
                 if (method === 'easypaisa') document.getElementById('methodEasypaisa').classList.add('active');
@@ -731,6 +826,8 @@
             };
 
             window.processWithdrawal = function() {
+                let data = loadData();
+                
                 const amount = parseFloat(document.getElementById('withdrawAmount').value);
                 const name = document.getElementById('accountName').value;
                 const number = document.getElementById('accountNumber').value;
@@ -749,29 +846,35 @@
                     return;
                 }
 
-                if (amount > balance) {
+                if (amount > data.balance) {
                     alert('❌ Insufficient balance');
                     return;
                 }
 
-                // Process withdrawal
-                balance -= amount;
-                balanceSpan.innerText = balance;
+                // Update balance
+                let newBalance = data.balance - amount;
+                saveBalance(newBalance);
                 
-                dailyStats.payouts += 1;
+                // Update total payouts
+                let newTotalPayouts = data.totalPayouts + 1;
+                saveGlobalStats(data.totalSpins, newTotalPayouts, data.totalWon, data.biggestWin);
                 
-                dailyStats.history.unshift({
+                // Add to history
+                let history = JSON.parse(localStorage.getItem('withdrawalHistory')) || [];
+                history.unshift({
                     method: method,
                     number: number,
                     amount: amount,
-                    status: 'Pending'
+                    status: 'Pending',
+                    date: new Date().toLocaleString()
                 });
                 
-                if (dailyStats.history.length > 5) {
-                    dailyStats.history.pop();
+                if (history.length > 5) {
+                    history.pop();
                 }
                 
-                updateStatsDisplay();
+                localStorage.setItem('withdrawalHistory', JSON.stringify(history));
+                displayHistory(history);
 
                 // Clear form
                 document.getElementById('accountName').value = '';
@@ -780,6 +883,18 @@
 
                 alert(`✅ Withdrawal request submitted!\nAmount: ${amount} PKR\nMethod: ${method}`);
             };
+
+            // ========== INITIAL LOAD ==========
+            drawWheel(currentAngle);
+            loadData();
+            
+            // Update timer every minute
+            setInterval(() => {
+                let lastSpinTime = localStorage.getItem('lastSpinTime');
+                if (lastSpinTime) {
+                    updateTimer(parseInt(lastSpinTime));
+                }
+            }, 60000);
         })();
     </script>
 </body>
